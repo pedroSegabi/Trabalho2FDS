@@ -24,11 +24,11 @@ public class DateCalculator {
             throw new IllegalArgumentException("ERRO: tamanho invalido.");
         }
         if (!dateStr.matches("\\d{2}/\\d{2}/\\d{4}")) {
-            throw new IllegalArgumentException("ERRO: formato invalido.");
+            throw new IllegalArgumentException("ERRO: não utilizou '/.");
         }
         String[] parts = dateStr.split("/");
         if (parts.length != 3 || parts[0].length() != 2 || parts[1].length() != 2 || parts[2].length() != 4) {
-            throw new IllegalArgumentException("ERRO: formato invalido.");
+            throw new IllegalArgumentException("ERRO: não utilizou digito.");
         }
 
         int day = Integer.parseInt(parts[0]);
@@ -41,6 +41,10 @@ public class DateCalculator {
 
         if (day < 1 || day > 31) {
             throw new IllegalArgumentException("ERRO: dia invalido.");
+        }
+
+        if(year > 9998 || year < 1600){
+            throw new IllegalArgumentException("ERRO: Ano inválido");
         }
 
         if (month == 2) {
@@ -58,6 +62,8 @@ public class DateCalculator {
                 throw new IllegalArgumentException("ERRO: dia invalido para o mes.");
             }
         }
+
+        
     }
 
     public static boolean isLeapYear(int year) {

@@ -125,4 +125,23 @@ public class DateCalculatorTest {
     public void testInvalidDayForJune() {
         DateCalculator.getNextDate("31/06/2021");
     }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidDayMax() {
+        DateCalculator.getNextDate("31/12/9999");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidDayMin() {
+        DateCalculator.getNextDate("01/01/1599");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidDay() {
+        DateCalculator.getNextDate("01/01/1600000");
+    }
+
+
+
 }
+
