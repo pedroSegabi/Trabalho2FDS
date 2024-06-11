@@ -1,3 +1,5 @@
+package br.pucrs.pedroviganico;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -8,6 +10,7 @@ public class DateCalculator {
 
     public static String getNextDate(String dateStr) throws IllegalArgumentException {
         try {
+            validateDateFormat(dateStr);
             LocalDate date = LocalDate.parse(dateStr, DATE_FORMAT);
             LocalDate nextDate = date.plusDays(1);
             return nextDate.format(DATE_FORMAT);
@@ -27,5 +30,37 @@ public class DateCalculator {
         if (parts.length != 3 || parts[0].length() != 2 || parts[1].length() != 2 || parts[2].length() != 4) {
             throw new IllegalArgumentException("ERRO: formato invalido.");
         }
+
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("ERRO: mes invalido.");
+        }
+
+        if (day < 1 || day > 31) {
+            throw new IllegalArgumentException("ERRO: dia invalido.");
+        }
+
+        if (month == 2) {
+            if (isLeapYear(year)) {
+                if (day > 29) {
+                    throw new IllegalArgumentException("ERRO: dia invalido para fevereiro em ano bissexto.");
+                }
+            } else {
+                if (day > 28) {
+                    throw new IllegalArgumentException("ERRO: dia invalido para fevereiro.");
+                }
+            }
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            if (day > 30) {
+                throw new IllegalArgumentException("ERRO: dia invalido para o mes.");
+            }
+        }
+    }
+
+    public static boolean isLeapYear(int year) {
+        return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 }
