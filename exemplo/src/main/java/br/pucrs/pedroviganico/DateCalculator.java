@@ -2,71 +2,95 @@ package br.pucrs.pedroviganico;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
 
 public class DateCalculator {
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static String getNextDate(String dateStr) throws IllegalArgumentException {
-        try {
+    public static String getNextDate(String dateStr) {
+       
             validateDateFormat(dateStr);
-            LocalDate date = LocalDate.parse(dateStr, DATE_FORMAT);
+            LocalDate date = LocalDate.parse(dateStr, dataFormato);
             LocalDate nextDate = date.plusDays(1);
-            return nextDate.format(DATE_FORMAT);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("ERRO: data invalida.");
-        }
+            return nextDate.format(dataFormato);
+        
     }
 
     public static void validateDateFormat(String dateStr) {
-        if (dateStr.length() != 10) {
-            throw new IllegalArgumentException("ERRO: tamanho invalido.");
-        }
-        if (!dateStr.matches("\\d{2}/\\d{2}/\\d{4}")) {
-            throw new IllegalArgumentException("ERRO: não utilizou '/.");
-        }
+
+
         String[] parts = dateStr.split("/");
-        if (parts.length != 3 || parts[0].length() != 2 || parts[1].length() != 2 || parts[2].length() != 4) {
-            throw new IllegalArgumentException("ERRO: não utilizou digito.");
+        if (dateStr.length() > 10) {
+            throw new IllegalArgumentException("ERRO: tamanho invalido.");
+        }else if(dateStr.length() < 10) {
+           throw new IllegalArgumentException("faltou um digito");
+    
+        }
+
+        if (contemLetras(dateStr) == false) {
+            
+            if (dateStr.contains("/")) {
+                if (!dateStr.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                    throw new IllegalArgumentException("ERRO: ERRO:3 não utilizou '/'.");
+                }
+            } else {
+                throw new IllegalArgumentException("ERRO: não utilizou '/'.");
+            }
+
+        }else{
+            throw new IllegalArgumentException("ERRO: data invalida");
         }
 
         int day = Integer.parseInt(parts[0]);
         int month = Integer.parseInt(parts[1]);
         int year = Integer.parseInt(parts[2]);
 
-        if (month < 1 || month > 12) {
-            throw new IllegalArgumentException("ERRO: mes invalido.");
-        }
+       
 
         if (day < 1 || day > 31) {
-            throw new IllegalArgumentException("ERRO: dia invalido.");
+            throw new IllegalArgumentException("ERRO: data invalida4.");
+        }
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("ERRO: data invalida5");
         }
 
         if(year > 9998 || year < 1600){
-            throw new IllegalArgumentException("ERRO: Ano inválido");
+            throw new IllegalArgumentException("ERRO: data invalida6");
         }
 
         if (month == 2) {
             if (isLeapYear(year)) {
                 if (day > 29) {
-                    throw new IllegalArgumentException("ERRO: dia invalido para fevereiro em ano bissexto.");
+                    throw new IllegalArgumentException("ERRO: data invalida.");
                 }
             } else {
                 if (day > 28) {
-                    throw new IllegalArgumentException("ERRO: dia invalido para fevereiro.");
+                    throw new IllegalArgumentException("ERRO: data invalida.");
                 }
             }
         } else if (month == 4 || month == 6 || month == 9 || month == 11) {
             if (day > 30) {
-                throw new IllegalArgumentException("ERRO: dia invalido para o mes.");
+                throw new IllegalArgumentException("ERRO: data invalida.");
             }
         }
 
         
+        
+    }
+
+    public static boolean contemLetras(String data) {
+       
+        String regex = ".*[a-zA-Z]+.*";
+        return data.matches(regex);
     }
 
     public static boolean isLeapYear(int year) {
-        return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+        if ((year % 4 == 0) && (year % 100 != 0)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

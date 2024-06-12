@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Hello world!
  *
  */
-public class App {
+public class Data {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean validDate = false;
@@ -30,5 +30,6 @@ public class App {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+        scanner.close();
     }
 }
