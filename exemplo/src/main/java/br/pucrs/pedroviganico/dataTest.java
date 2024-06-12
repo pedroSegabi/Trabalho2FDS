@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-public class DateCalculator {
-
-    private static final DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+public class dataTest {
+    
+    private static DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public dataTest (){
+        
+    }
     public static String getNextDate(String dateStr) {
        
             validateDateFormat(dateStr);

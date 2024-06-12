@@ -11,13 +11,14 @@ public class Data {
         Scanner scanner = new Scanner(System.in);
         boolean validDate = false;
         String inputDate = null;
+        dataTest data = new dataTest();
 
         while (!validDate) {
             System.out.println("Digite a data no formato: dd/MM/yyyy:");
             inputDate = scanner.nextLine();
 
             try {
-                DateCalculator.validateDateFormat(inputDate);
+                data.validateDateFormat(inputDate);
                 validDate = true;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -25,7 +26,7 @@ public class Data {
         }
 
         try {
-            String nextDate = DateCalculator.getNextDate(inputDate);
+            String nextDate = data.getNextDate(inputDate);
             System.out.println("Data seguinte: " + nextDate);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
